@@ -16,4 +16,14 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
+const db = require('./models');
+db.sequelize
+    .sync()
+    .then(() => {
+        console.log('Synced db.');
+    })
+    .catch((err: any) => {
+        console.log('Failed to sync db: ' + err.message);
+    });
+
 app.listen(port, () => console.log(`Running on port ${port}`));
