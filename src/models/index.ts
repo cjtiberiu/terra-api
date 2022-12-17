@@ -33,6 +33,7 @@ db.client_projects = require('./Client_projects.model.js')(
     sequelize,
     Sequelize
 );
+db.project_users = require('./Project_users.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
@@ -84,8 +85,8 @@ db.countries.hasMany(db.clients, {
 db.projects.belongsToMany(db.clients, { through: db.client_projects });
 db.clients.belongsToMany(db.projects, { through: db.client_projects });
 
-db.users.belongsToMany(db.projects, { through: 'project_users' });
-db.projects.belongsToMany(db.clients, { through: 'project_users' });
+db.projects.belongsToMany(db.users, { through: db.project_users });
+db.users.belongsToMany(db.projects, { through: db.project_users });
 
 module.exports = db;
 
