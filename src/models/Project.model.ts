@@ -5,7 +5,6 @@ module.exports = (sequelize: any, Sequelize: any) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
-            as: 'FIRST_NAME',
         },
         createdAt: {
             allowNull: false,
