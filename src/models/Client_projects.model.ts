@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes, INTEGER } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Client = sequelize.define('client_projects', {
+    const ClientProjects = sequelize.define('client_projects', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -35,5 +35,5 @@ module.exports = (sequelize: any, Sequelize: any) => {
         },
     });
 
-    return Client;
+    return ClientProjects;
 };
