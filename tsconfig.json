@@ -10,7 +10,8 @@
         "baseUrl": ".",
         "paths": {
             "*": ["node_modules/*"]
-        }
+        },
+        "typeRoots": ["src/customTypings", "node_modules/@types"]
     },
     "include": ["src/**/*"]
   }

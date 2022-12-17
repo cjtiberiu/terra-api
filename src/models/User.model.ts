@@ -5,18 +5,32 @@ module.exports = (sequelize: any, Sequelize: any) => {
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
+            as: 'FIRST_NAME',
         },
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
+            as: 'LAST_NAME',
         },
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+            as: 'EMAIL',
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            as: 'PASSWORD',
+        },
+        contractStartDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            as: 'CONTACT_START_DATE',
+        },
+        contractEndDate: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            as: 'CONTRACT_END_DATE',
         },
         // typeId: {
         //     type: DataTypes.INTEGER,
