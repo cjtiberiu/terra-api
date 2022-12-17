@@ -27,6 +27,7 @@ db.userTypes = require('./User_type.model.js')(sequelize, Sequelize);
 db.users = require('./User.model.js')(sequelize, Sequelize);
 db.projectTypes = require('./Project_type.model.js')(sequelize, Sequelize);
 db.projects = require('./Project.model.js')(sequelize, Sequelize);
+db.countries = require('./Country.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
