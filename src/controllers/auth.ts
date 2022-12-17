@@ -6,11 +6,20 @@ const jwt = require('jsonwebtoken');
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
-        const user = await db.users.findOne({ where: { email: email } });
+        const user = await db.users.findOne({
+            where: { email: email },
+            raw: true,
+            attributes: {
+                include: [[db.Sequelize.col('user_type.type'), 'userType']],
+            },
+            include: [{ model: db.userTypes, attributes: [] }],
+        });
 
         if (!user) {
             res.send('Email not found');
         }
+
+        console.log(user);
 
         const token = generateAccessToken(email);
 
@@ -19,8 +28,8 @@ export const login = async (req: Request, res: Response) => {
             user.password,
             function (err: any, result: any) {
                 if (result) {
-                    delete user.dataValues.password;
-                    res.status(200).send({ ...user.dataValues, token });
+                    delete user.password;
+                    res.status(200).send({ ...user, token });
                 } else {
                     res.send('Wrong password');
                 }
