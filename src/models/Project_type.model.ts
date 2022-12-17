@@ -2,13 +2,12 @@ import { Sequelize, DataTypes } from 'sequelize';
 //const User = require('./User.model');
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const UserType = sequelize.define(
-        'user_type',
+    const ProjectType = sequelize.define(
+        'project_type',
         {
             type: {
                 type: DataTypes.STRING,
                 allowNull: false,
-                defaultValue: 'user',
             },
         },
         {
@@ -16,5 +15,5 @@ module.exports = (sequelize: any, Sequelize: any) => {
         }
     );
 
-    return UserType;
+    return ProjectType;
 };

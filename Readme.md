@@ -10,7 +10,8 @@ This project is using mySQL db. Created and linked two docker containers for myS
 
 - - - -
 ## Sequelize Commands for Migrations And Seeds
-1. npx sequelize-cli db:migrate to migrate the db structure
-2. npx sequelize-cli db:seed:all to add the data
+1. npx sequelize seed:generate --name [name] to generate seed file
+2. npx sequelize-cli db:migrate to migrate the db structure
+3. npx sequelize-cli db:seed:all to add the data
 
 

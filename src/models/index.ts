@@ -25,10 +25,12 @@ db.sequelize = sequelize;
 
 db.userTypes = require('./User_type.model.js')(sequelize, Sequelize);
 db.users = require('./User.model.js')(sequelize, Sequelize);
+db.projectTypes = require('./Project_type.model.js')(sequelize, Sequelize);
+db.projects = require('./Project.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
-        name: 'typeId',
+        name: 'userType',
         allowNull: false,
         defaultValue: 2,
     },
@@ -37,7 +39,23 @@ db.users.belongsTo(db.userTypes, {
 });
 db.userTypes.hasMany(db.users, {
     foreignKey: {
-        name: 'typeId',
+        name: 'userType',
+        allowNull: false,
+        defaultValue: 2,
+    },
+});
+db.projects.belongsTo(db.projectTypes, {
+    foreignKey: {
+        name: 'projectType',
+        allowNull: false,
+        defaultValue: 2,
+    },
+    targetKey: 'id',
+    uniqueKey: 'project_type_fk',
+});
+db.projectTypes.hasMany(db.projects, {
+    foreignKey: {
+        name: 'projectType',
         allowNull: false,
         defaultValue: 2,
     },
