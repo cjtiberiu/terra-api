@@ -4,6 +4,6 @@ import { authToken } from '../middleware/tokenCheck';
 
 export const auth: Router = Router();
 
-auth.post('/api/login', login);
-auth.post('/api/register', register);
-auth.get('/api/getusers', authToken, getUsers);
+auth.post('/login', login);
+auth.post('/register', register);
+auth.get('/getusers', authToken, getUsers);

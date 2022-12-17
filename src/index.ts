@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use('/api', routes);
 
 const db = require('./models');
 db.sequelize
