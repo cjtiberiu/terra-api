@@ -1,7 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
+import { IGetUserAuthInfoRequest, IUserObject } from '../types';
 const jwt = require('jsonwebtoken');
 
-export function authToken(req: Request, res: Response, next: NextFunction) {
+export function authToken(
+    req: IGetUserAuthInfoRequest,
+    res: Response,
+    next: NextFunction
+) {
     const authHeader = req.headers['authorization'];
     //const token = authHeader && authHeader.split(' ')[1];
     const token = req.headers['authorization'];
@@ -11,7 +16,7 @@ export function authToken(req: Request, res: Response, next: NextFunction) {
     jwt.verify(
         token,
         process.env.JWT_TOKEN as string,
-        (err: any, user: any) => {
+        (err: any, user: IUserObject) => {
             console.log(err);
 
             if (err) return res.sendStatus(403);

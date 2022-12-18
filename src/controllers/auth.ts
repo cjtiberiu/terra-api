@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { IUserObject, IGetUserAuthInfoRequest } from '../types';
 const db = require('../models/');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -18,23 +19,17 @@ export const login = async (req: Request, res: Response) => {
         if (!user) {
             res.send('Email not found');
         }
+        
+        const token = generateAccessToken(user);
 
-        console.log(user);
-
-        const token = generateAccessToken(email);
-
-        bcrypt.compare(
-            password,
-            user.password,
-            function (err: any, result: any) {
-                if (result) {
-                    delete user.password;
-                    res.status(200).send({ ...user, token });
-                } else {
-                    res.send('Wrong password');
-                }
+        bcrypt.compare(password, user.password, function (err: any, result: any) {
+            if (result) {
+                delete user.password;
+                res.status(200).send({ ...user, token });
+            } else {
+                res.send('Wrong password');
             }
-        );
+        });
     } catch (err) {
         console.log(err);
     }
@@ -56,8 +51,7 @@ export const register = async (req: Request, res: Response) => {
     }
 };
 
-export const getUsers = async (req: Request, res: Response) => {
-    console.log(req.user);
+export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
     const users = await db.users.findAll({
         raw: true,
         attributes: {
@@ -69,6 +63,10 @@ export const getUsers = async (req: Request, res: Response) => {
     res.send(users);
 };
 
-function generateAccessToken(email: string) {
-    return jwt.sign({ email }, process.env.JWT_TOKEN, { expiresIn: '1000000' });
+function generateAccessToken(user: IUserObject) {
+    const tokenUser = Object.assign({}, user);
+    delete tokenUser.password;
+    return jwt.sign(tokenUser, process.env.JWT_TOKEN, {
+        expiresIn: '1000000',
+    });
 }
