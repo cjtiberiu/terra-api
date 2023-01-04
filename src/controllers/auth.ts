@@ -17,17 +17,17 @@ export const login = async (req: Request, res: Response) => {
         });
 
         if (!user) {
-            res.send('Email not found');
+            res.json({ message: 'Email not found' });
         }
-        
+
         const token = generateAccessToken(user);
 
         bcrypt.compare(password, user.password, function (err: any, result: any) {
             if (result) {
                 delete user.password;
-                res.status(200).send({ ...user, token });
+                res.status(200).json({ ...user, token, message: 'User logged in' });
             } else {
-                res.send('Wrong password');
+                res.json({ message: 'Wrong password' });
             }
         });
     } catch (err) {
