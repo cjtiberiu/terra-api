@@ -25,7 +25,8 @@ export const login = async (req: Request, res: Response) => {
         bcrypt.compare(password, user.password, function (err: any, result: any) {
             if (result) {
                 delete user.password;
-                res.status(200).json({ ...user, token, message: 'User logged in' });
+                const userData = { ...user, token };
+                res.status(200).json({ userData, message: 'User logged in' });
             } else {
                 res.json({ message: 'Wrong password' });
             }
@@ -67,6 +68,6 @@ function generateAccessToken(user: IUserObject) {
     const tokenUser = Object.assign({}, user);
     delete tokenUser.password;
     return jwt.sign(tokenUser, process.env.JWT_TOKEN, {
-        expiresIn: '1000000',
+        expiresIn: '60000000',
     });
 }
