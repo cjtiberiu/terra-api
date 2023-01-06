@@ -52,7 +52,7 @@ export const register = async (req: Request, res: Response) => {
             contractEndDate,
             userType,
         });
-        
+
         return res.json({ userData: newUser, message: `User ${email} added` });
     } catch (err) {
         return res.json({ message: err.name});
@@ -60,16 +60,37 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
-    const users = await db.users.findAll({
-        raw: true,
-        attributes: {
-            include: [[db.Sequelize.col('user_type.type'), 'userType']],
-            exclude: ['password', 'typeId'],
-        },
-        include: [{ model: db.userTypes, attributes: [] }],
-    });
-    res.send(users);
+    try {
+        const users = await db.users.findAll({
+            raw: true,
+            attributes: {
+                include: [[db.Sequelize.col('user_type.type'), 'userType']],
+                exclude: ['password', 'typeId'],
+            },
+            include: [{ model: db.userTypes, attributes: [] }],
+        });
+
+        res.json({ users: users });
+    } catch(err) {
+        return res.json({ message: err.name })
+    }
 };
+
+export const removeUser = async (req: Request, res: Response) => {
+    const { userID } = req.body
+
+    try {
+        const users = await db.users.destroy({
+            where: {
+                id: userID
+            }
+        });
+
+        res.json({ message: 'User deleted succesfully' });
+    } catch(err) {
+        return res.json({ message: err.name })
+    }
+}
 
 function generateAccessToken(user: IUserObject) {
     const tokenUser = Object.assign({}, user);
