@@ -52,9 +52,10 @@ export const register = async (req: Request, res: Response) => {
             contractEndDate,
             userType,
         });
-        res.json(newUser);
+        
+        return res.json({ userData: newUser, message: `User ${email} added` });
     } catch (err) {
-        res.json(err.name);
+        return res.json({ message: err.name});
     }
 };
 
