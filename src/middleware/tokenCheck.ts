@@ -5,12 +5,10 @@ const jwt = require('jsonwebtoken');
 export function authToken(req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) {
     const token = req.headers['authorization'];
 
-    if (token == null) return res.sendStatus(401);
+    if (token == null) return res.status(401).json({ message: 'Forbidden' });
 
     jwt.verify(token, process.env.JWT_TOKEN as string, (err: any, user: IUserObject) => {
-        console.log(err);
-
-        if (err) return res.sendStatus(403);
+        if (err) return res.status(403).json(err);
 
         req.user = user;
 
