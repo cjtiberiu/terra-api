@@ -16,9 +16,17 @@ export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) =>
                 exclude: ['countryId'],
             },
         });
-        res.send(clients);
+        res.json({ clients: clients });
     } catch (err) {
         console.log(err);
-        res.send(err);
+        res.json(err);
     }
 };
+
+export const addClient = async (req: IGetUserAuthInfoRequest, res: Response) => {
+    try {
+        
+    } catch (err) {
+        res.json(err);
+    }
+}

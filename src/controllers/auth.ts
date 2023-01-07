@@ -14,9 +14,15 @@ export const login = async (req: Request, res: Response) => {
             where: { email: email },
             raw: true,
             attributes: {
-                include: [[db.Sequelize.col('user_type.type'), 'userType']],
+                include: [
+                    [db.Sequelize.col('user_type.type'), 'userType'],
+                    [db.Sequelize.col('user_role.role'), 'userRole'],
+                ],
             },
-            include: [{ model: db.userTypes, attributes: [] }],
+            include: [
+                { model: db.userTypes, attributes: [] },
+                { model: db.userRoles, attributes: [] },
+            ],
         });
 
         if (!user) {
@@ -68,88 +74,6 @@ export const register = async (req: Request, res: Response) => {
         });
 
         return res.json({ userData: newUser, message: `User ${email} added` });
-    } catch (err) {
-        return res.json({ message: err.name });
-    }
-};
-
-export const updateUser = async (req: Request, res: Response) => {
-    const { firstName, lastName, email, contractStartDate, contractEndDate, userType } = req.body;
-    let formattedStartDate;
-    let formattedEndDate;
-
-    // TODO: iso date formatting improvements
-
-    if (contractStartDate) {
-        formattedStartDate = new Date(contractStartDate);
-        formattedStartDate = formattedStartDate.toISOString().split('T')[0] + ' ' + formattedStartDate.toTimeString().split(' ')[0];
-    }
-
-    if (contractEndDate) {
-        formattedEndDate = new Date(contractEndDate);
-        formattedEndDate = formattedEndDate.toISOString().split('T')[0] + ' ' + formattedEndDate.toTimeString().split(' ')[0];
-    }
-
-    try {
-        const updatedUser = await db.users.update(
-            { firstName, lastName, email, contractStartDate, contractEndDate, userType },
-            {
-                where: {
-                    email: email,
-                },
-            }
-        );
-
-        return res.json({ updatedUser: updatedUser, message: 'User updated succesfully' });
-    } catch (err) {
-        return res.json({ message: err.name });
-    }
-};
-
-export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
-    try {
-        const users = await db.users.findAll({
-            raw: true,
-            attributes: {
-                include: [[db.Sequelize.col('user_type.type'), 'userType']],
-                exclude: ['password', 'typeId'],
-            },
-            include: [{ model: db.userTypes, attributes: [] }],
-        });
-
-        res.json({ users: users });
-    } catch (err) {
-        return res.json({ message: err.name });
-    }
-};
-
-export const getUser = async (req: Request, res: Response) => {
-    const { userID } = req.body;
-
-    try {
-        const user = await db.users.findOne({
-            where: {
-                id: userID,
-            },
-        });
-
-        res.json({ userData: user, message: 'User found' });
-    } catch (err) {
-        return res.json({ message: err.name });
-    }
-};
-
-export const removeUser = async (req: Request, res: Response) => {
-    const { userID } = req.body;
-
-    try {
-        const users = await db.users.destroy({
-            where: {
-                id: userID,
-            },
-        });
-
-        res.json({ message: 'User deleted succesfully' });
     } catch (err) {
         return res.json({ message: err.name });
     }

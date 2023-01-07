@@ -34,6 +34,7 @@ db.client_projects = require('./Client_projects.model.js')(
     Sequelize
 );
 db.project_users = require('./Project_users.model.js')(sequelize, Sequelize);
+db.userRoles = require('./User_role.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
@@ -49,6 +50,20 @@ db.userTypes.hasMany(db.users, {
         name: 'userType',
         allowNull: false,
         defaultValue: 2,
+    },
+});
+db.users.belongsTo(db.userRoles, {
+    foreignKey: {
+        name: 'userRole',
+        allowNull: false,
+    },
+    targetKey: 'id',
+    uniqueKey: 'user_role_fk',
+});
+db.userRoles.hasMany(db.users, {
+    foreignKey: {
+        name: 'userRole',
+        allowNull: false,
     },
 });
 db.projects.belongsTo(db.projectTypes, {
