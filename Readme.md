@@ -3,7 +3,12 @@
 ## Requirements
 1. Node version > 18.7.0
 2. NPM version > 8.15.0
+3. WSL + Docker
 
+## Setup steps
+1. npm install
+2. add env variables
+3. docker compose up
 - - - -
 ## Database Info
 This project is using mySQL db. Created and linked two docker containers for mySql and phpMyAdmin.

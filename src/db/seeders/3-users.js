@@ -8,7 +8,7 @@ module.exports = {
             {
                 firstName: 'Admin',
                 lastName: 'Test',
-                email: 'admin@genesis.com',
+                email: 'admin@cnetwork.com',
                 password: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
                 userType: 1,
                 userRole: 1,
@@ -18,7 +18,7 @@ module.exports = {
             {
                 firstName: 'User',
                 lastName: 'Test',
-                email: 'user@genesis.com',
+                email: 'user@cnetwork.com',
                 password: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
                 userType: 2,
                 userRole: 2,
