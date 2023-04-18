@@ -29,10 +29,10 @@ db.projectTypes = require('./Project_type.model.js')(sequelize, Sequelize);
 db.projects = require('./Project.model.js')(sequelize, Sequelize);
 db.countries = require('./Country.model.js')(sequelize, Sequelize);
 db.clients = require('./Client.model.js')(sequelize, Sequelize);
-db.client_projects = require('./Client_projects.model.js')(
-    sequelize,
-    Sequelize
-);
+// db.client_projects = require('./Client_projects.model.js')(
+//     sequelize,
+//     Sequelize
+// );
 db.project_users = require('./Project_users.model.js')(sequelize, Sequelize);
 db.userRoles = require('./User_role.js')(sequelize, Sequelize);
 
@@ -97,8 +97,22 @@ db.countries.hasMany(db.clients, {
         defaultValue: 2,
     },
 });
-db.projects.belongsToMany(db.clients, { through: db.client_projects });
-db.clients.belongsToMany(db.projects, { through: db.client_projects });
+db.projects.belongsTo(db.clients, {
+    foreignKey: {
+        name: 'clientId',
+    },
+    targetKey: 'id',
+    uniqueKey: 'project_client_fk',
+});
+db.clients.hasMany(db.projects, {
+    foreignKey: {
+        name: 'clientId',
+        allowNull: false,
+        defaultValue: 1,
+    },
+});
+// db.projects.belongsTo(db.clients, { through: db.client_projects });
+// db.clients.hasMany(db.projects, { through: db.client_projects });
 
 db.projects.belongsToMany(db.users, { through: db.project_users });
 db.users.belongsToMany(db.projects, { through: db.project_users });

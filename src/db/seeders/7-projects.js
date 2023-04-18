@@ -5,14 +5,30 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         return queryInterface.bulkInsert('projects', [
             {
-                name: 'Internal Project',
+                name: 'cNetwork Dashboard',
                 projectType: 1,
+                clientId: 1,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                name: 'External Project',
+                name: 'Furniture eCommerce Storefront',
                 projectType: 2,
+                clientId: 3,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                name: 'Magazin Electronice',
+                projectType: 1,
+                clientId: 2,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            {
+                name: 'Financial Dashboard',
+                projectType: 2,
+                clientId: 3,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

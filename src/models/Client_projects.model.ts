@@ -2,19 +2,6 @@ import { Sequelize, DataTypes, INTEGER } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
     const ClientProjects = sequelize.define('client_projects', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-        },
-        clientId: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'clients',
-                key: 'id',
-            },
-            allowNull: false,
-        },
         projectId: {
             type: DataTypes.INTEGER,
             references: {

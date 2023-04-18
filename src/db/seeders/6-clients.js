@@ -18,13 +18,19 @@ module.exports = {
 
 let clients = [
     {
-        name: 'Client Romania',
+        name: 'CNETWORK',
         countryId: 184,
         createdAt: new Date(),
         updatedAt: new Date(),
     },
     {
-        name: 'Client USA',
+        name: 'Client Romania 1',
+        countryId: 184,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    },
+    {
+        name: 'Client USA 1',
         countryId: 239,
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -109,3 +109,66 @@ export const getUserRoles = async (req: Request, res: Response) => {
         res.json(err.name);
     }
 };
+
+export const getUserDetails = async (req: Request, res: Response) => {
+    const { userId } = req.query;
+
+    try {
+        const user = await db.users.findByPk(userId, {
+            attributes: {
+                include: [
+                    [db.Sequelize.col('user_type.type'), 'userType'],
+                    [db.Sequelize.col('user_role.role'), 'userRole'],
+                ],
+                exclude: ['password', 'typeId'],
+            },
+            include: [
+                { model: db.userTypes, attributes: [] },
+                { model: db.userRoles, attributes: [] },
+            ],
+        });
+
+        const userProjects = await user.getProjects({
+            joinTableAttributes: [],
+            attributes: {
+                include: [
+                    [db.Sequelize.col('project_type.type'), 'projectType'],
+                ],
+            },
+            include: [
+                { model: db.projectTypes, attributes: [] },
+                { 
+                    model: db.clients,
+                    include: [
+                        { model: db.countries }
+                    ] 
+                },
+            ],
+        });
+
+        res.json({ data: { ...user.toJSON(), projects: userProjects }, message: '' });
+    } catch(err) {
+        res.json({ message: err.name });
+    }
+}
+
+// export const getUserProjects = async (req: Request, res: Response) => {
+//     const userId = req.params.id;
+
+//     try {
+//         const user = await User.findByPk(userId);
+
+//         if (!user) {
+//         res.status(404).send('User not found');
+//         return;
+//         }
+
+//         const groups = await user.getGroups({
+//         through: false
+//         });
+//         res.json(groups);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('An error occurred while fetching groups for the user');
+//     }
+// }

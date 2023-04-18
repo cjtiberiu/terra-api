@@ -2,11 +2,6 @@ import { Sequelize, DataTypes, INTEGER } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
     const ProjectUsers = sequelize.define('project_users', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-        },
         projectId: {
             type: DataTypes.INTEGER,
             references: {

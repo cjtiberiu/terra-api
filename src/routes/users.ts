@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { authToken } from '../middleware/tokenCheck';
-import { getUsers, removeUser, getUser, updateUser, getUserTypes, getUserRoles } from '../controllers/users';
+import { getUsers, removeUser, getUser, updateUser, getUserTypes, getUserRoles, getUserDetails } from '../controllers/users';
 import { adminCheck } from '../middleware/adminCheck';
 
 export const users: Router = Router();
@@ -11,3 +11,4 @@ users.post('/getuser', authToken, adminCheck, getUser);
 users.post('/updateUser', authToken, adminCheck, updateUser);
 users.get('/getusertypes', authToken, adminCheck, getUserTypes);
 users.get('/getuserroles', authToken, adminCheck, getUserRoles);
+users.get('/getuserdetails', authToken, adminCheck, getUserDetails);
