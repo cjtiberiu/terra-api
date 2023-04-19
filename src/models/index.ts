@@ -29,12 +29,9 @@ db.projectTypes = require('./Project_type.model.js')(sequelize, Sequelize);
 db.projects = require('./Project.model.js')(sequelize, Sequelize);
 db.countries = require('./Country.model.js')(sequelize, Sequelize);
 db.clients = require('./Client.model.js')(sequelize, Sequelize);
-// db.client_projects = require('./Client_projects.model.js')(
-//     sequelize,
-//     Sequelize
-// );
 db.project_users = require('./Project_users.model.js')(sequelize, Sequelize);
 db.userRoles = require('./User_role.js')(sequelize, Sequelize);
+db.workLogs = require('./WorkLog.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
@@ -111,11 +108,30 @@ db.clients.hasMany(db.projects, {
         defaultValue: 1,
     },
 });
-// db.projects.belongsTo(db.clients, { through: db.client_projects });
-// db.clients.hasMany(db.projects, { through: db.client_projects });
-
 db.projects.belongsToMany(db.users, { through: db.project_users });
 db.users.belongsToMany(db.projects, { through: db.project_users });
+db.workLogs.belongsTo(db.users, {
+    foreignKey: {
+        name: 'userId',
+    },
+    targetKey: 'id',
+})
+db.users.hasMany(db.workLogs, {
+    foreignKey: {
+        name: 'userId',
+    },
+})
+db.workLogs.belongsTo(db.projects, {
+    foreignKey: {
+        name: 'projectId',
+    },
+    targetKey: 'id',
+})
+db.projects.hasMany(db.workLogs, {
+    foreignKey: {
+        name: 'projectId',
+    },
+})
 
 module.exports = db;
 

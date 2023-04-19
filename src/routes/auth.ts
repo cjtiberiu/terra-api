@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { login, register } from '../controllers/auth';
+import { login, register } from '../controllers/auth-controller';
 import { authToken } from '../middleware/tokenCheck';
 import { adminCheck } from '../middleware/adminCheck';
 

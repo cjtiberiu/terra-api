@@ -1,6 +1,13 @@
 import { Router } from 'express';
 import { authToken } from '../middleware/tokenCheck';
-import { getUsers, removeUser, getUser, updateUser, getUserTypes, getUserRoles, getUserDetails } from '../controllers/users';
+import { 
+    getUsers, 
+    removeUser, 
+    getUser, updateUser, 
+    getUserTypes, getUserRoles, 
+    getUserDetails, 
+    getUserWorkLogs 
+} from '../controllers/user-controller';
 import { adminCheck } from '../middleware/adminCheck';
 
 export const users: Router = Router();
@@ -12,3 +19,4 @@ users.post('/updateUser', authToken, adminCheck, updateUser);
 users.get('/getusertypes', authToken, adminCheck, getUserTypes);
 users.get('/getuserroles', authToken, adminCheck, getUserRoles);
 users.get('/getuserdetails', authToken, adminCheck, getUserDetails);
+users.get('/getuserworklogs/:id', authToken, getUserWorkLogs); // TODO: add check for current user and admin only

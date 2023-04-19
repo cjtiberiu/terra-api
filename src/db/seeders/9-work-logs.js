@@ -3,32 +3,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('projects', [
+        return queryInterface.bulkInsert('work_logs', [
             {
-                name: 'cNetwork Dashboard',
-                projectType: 1,
-                clientId: 1,
+                qty: 1,
+                date: '2023-04-17',
+                userId: 2,
+                projectId: 1,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                name: 'Furniture eCommerce Storefront',
-                projectType: 2,
-                clientId: 3,
+                qty: 1.25,
+                date: '2023-04-18',
+                userId: 2,
+                projectId: 1,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
             {
-                name: 'Magazin Electronice',
-                projectType: 2,
-                clientId: 2,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-            },
-            {
-                name: 'Financial Dashboard',
-                projectType: 2,
-                clientId: 3,
+                qty: 1.5,
+                date: '2023-04-19',
+                userId: 2,
+                projectId: 1,
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },

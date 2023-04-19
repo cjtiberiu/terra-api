@@ -152,6 +152,23 @@ export const getUserDetails = async (req: Request, res: Response) => {
     }
 }
 
+export const getUserWorkLogs = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    try {
+        const workLogs = await db.workLogs.findAll({
+            where: {
+                userId: id
+            }
+        });
+
+        res.json({ data: workLogs, message: '' });
+    } catch (err) {
+        console.log(err);
+        res.json({ message: err.name });
+    }
+}
+
 // export const getUserProjects = async (req: Request, res: Response) => {
 //     const userId = req.params.id;
 
