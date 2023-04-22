@@ -17,12 +17,12 @@ app.use('/api', routes);
 
 const db = require('./models');
 db.sequelize
-    .sync()
-    .then(() => {
-        console.log('Synced db.');
-    })
-    .catch((err: any) => {
-        console.log('Failed to sync db: ' + err.message);
-    });
+  .sync()
+  .then(() => {
+    console.log('Synced db.');
+  })
+  .catch((err: any) => {
+    console.log('Failed to sync db: ' + err.message);
+  });
 
 app.listen(port, () => console.log(`Running on port ${port}`));

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { authToken } from '../middleware/tokenCheck';
-import { 
-    getUsers, 
-    removeUser, 
-    getUser, updateUser, 
-    getUserTypes, getUserRoles, 
-    getUserDetails, 
-    getUserWorkLogs 
+import {
+  getUsers,
+  removeUser,
+  getUser, updateUser,
+  getUserTypes, getUserRoles,
+  getUserDetails,
+  getUserWorkLogs
 } from '../controllers/user-controller';
 import { adminCheck } from '../middleware/adminCheck';
 

@@ -3,7 +3,7 @@ import { IGetUserAuthInfoRequest } from '../types';
 const jwt = require('jsonwebtoken');
 
 export function adminCheck(req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) {
-    if (req.user.userType !== 'admin') return res.status(403).json({ message: 'Forbidden' });
+  if (req.user.userType !== 'admin') return res.status(403).json({ message: 'Forbidden' });
 
-    next();
+  next();
 }

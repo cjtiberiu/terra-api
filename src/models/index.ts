@@ -1,21 +1,21 @@
 const dbConfig = require('../config/db.config.js');
 
 interface IDBObject {
-    [key: string]: any;
+  [key: string]: any;
 }
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.dialect,
-    operatorsAliases: 0,
+  host: dbConfig.HOST,
+  dialect: dbConfig.dialect,
+  operatorsAliases: 0,
 
-    pool: {
-        max: dbConfig.pool.max,
-        min: dbConfig.pool.min,
-        acquire: dbConfig.pool.acquire,
-        idle: dbConfig.pool.idle,
-    },
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle,
+  },
 });
 
 const db: IDBObject = {};
@@ -34,103 +34,103 @@ db.userRoles = require('./User_role.js')(sequelize, Sequelize);
 db.workLogs = require('./WorkLog.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
-    foreignKey: {
-        name: 'userType',
-        allowNull: false,
-        defaultValue: 2,
-    },
-    targetKey: 'id',
-    uniqueKey: 'user_type_fk',
+  foreignKey: {
+    name: 'userType',
+    allowNull: false,
+    defaultValue: 2,
+  },
+  targetKey: 'id',
+  uniqueKey: 'user_type_fk',
 });
 db.userTypes.hasMany(db.users, {
-    foreignKey: {
-        name: 'userType',
-        allowNull: false,
-        defaultValue: 2,
-    },
+  foreignKey: {
+    name: 'userType',
+    allowNull: false,
+    defaultValue: 2,
+  },
 });
 db.users.belongsTo(db.userRoles, {
-    foreignKey: {
-        name: 'userRole',
-        allowNull: false,
-    },
-    targetKey: 'id',
-    uniqueKey: 'user_role_fk',
+  foreignKey: {
+    name: 'userRole',
+    allowNull: false,
+  },
+  targetKey: 'id',
+  uniqueKey: 'user_role_fk',
 });
 db.userRoles.hasMany(db.users, {
-    foreignKey: {
-        name: 'userRole',
-        allowNull: false,
-    },
+  foreignKey: {
+    name: 'userRole',
+    allowNull: false,
+  },
 });
 db.projects.belongsTo(db.projectTypes, {
-    foreignKey: {
-        name: 'projectType',
-        allowNull: false,
-        defaultValue: 2,
-    },
-    targetKey: 'id',
-    uniqueKey: 'project_type_fk',
+  foreignKey: {
+    name: 'projectType',
+    allowNull: false,
+    defaultValue: 2,
+  },
+  targetKey: 'id',
+  uniqueKey: 'project_type_fk',
 });
 db.projectTypes.hasMany(db.projects, {
-    foreignKey: {
-        name: 'projectType',
-        allowNull: false,
-        defaultValue: 2,
-    },
+  foreignKey: {
+    name: 'projectType',
+    allowNull: false,
+    defaultValue: 2,
+  },
 });
 db.clients.belongsTo(db.countries, {
-    foreignKey: {
-        name: 'countryId',
-        allowNull: false,
-    },
-    targetKey: 'id',
-    uniqueKey: 'client_country_fk',
+  foreignKey: {
+    name: 'countryId',
+    allowNull: false,
+  },
+  targetKey: 'id',
+  uniqueKey: 'client_country_fk',
 });
 db.countries.hasMany(db.clients, {
-    foreignKey: {
-        name: 'countryId',
-        allowNull: false,
-        defaultValue: 2,
-    },
+  foreignKey: {
+    name: 'countryId',
+    allowNull: false,
+    defaultValue: 2,
+  },
 });
 db.projects.belongsTo(db.clients, {
-    foreignKey: {
-        name: 'clientId',
-    },
-    targetKey: 'id',
-    uniqueKey: 'project_client_fk',
+  foreignKey: {
+    name: 'clientId',
+  },
+  targetKey: 'id',
+  uniqueKey: 'project_client_fk',
 });
 db.clients.hasMany(db.projects, {
-    foreignKey: {
-        name: 'clientId',
-        allowNull: false,
-        defaultValue: 1,
-    },
+  foreignKey: {
+    name: 'clientId',
+    allowNull: false,
+    defaultValue: 1,
+  },
 });
 db.projects.belongsToMany(db.users, { through: db.project_users });
 db.users.belongsToMany(db.projects, { through: db.project_users });
 db.workLogs.belongsTo(db.users, {
-    foreignKey: {
-        name: 'userId',
-    },
-    targetKey: 'id',
+  foreignKey: {
+    name: 'userId',
+  },
+  targetKey: 'id',
 })
 db.users.hasMany(db.workLogs, {
-    foreignKey: {
-        name: 'userId',
-    },
+  foreignKey: {
+    name: 'userId',
+  },
 })
 db.workLogs.belongsTo(db.projects, {
-    foreignKey: {
-        name: 'projectId',
-    },
-    targetKey: 'id',
+  foreignKey: {
+    name: 'projectId',
+  },
+  targetKey: 'id',
 })
 db.projects.hasMany(db.workLogs, {
-    foreignKey: {
-        name: 'projectId',
-    },
+  foreignKey: {
+    name: 'projectId',
+  },
 })
 
 module.exports = db;
