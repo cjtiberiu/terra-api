@@ -19,4 +19,4 @@ users.post('/updateUser', authToken, adminCheck, updateUser);
 users.get('/getusertypes', authToken, adminCheck, getUserTypes);
 users.get('/getuserroles', authToken, adminCheck, getUserRoles);
 users.get('/getuserdetails', authToken, adminCheck, getUserDetails);
-users.get('/getuserworklogs/:id', authToken, getUserWorkLogs); // TODO: add check for current user and admin only
+users.get('/getuserworklogs/:userId/:monthId', authToken, getUserWorkLogs); // TODO: add check for current user and admin only

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { IGetUserAuthInfoRequest } from '../types';
+const { Op } = require('sequelize');
 const db = require('../models/');
 
 export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
@@ -152,14 +153,28 @@ export const getUserDetails = async (req: Request, res: Response) => {
     }
 }
 
+// TODO: check if params handling is a good approach in this case
 export const getUserWorkLogs = async (req: Request, res: Response) => {
-    const id = req.params.id;
+    const userId = req.params.userId;
+    const monthId = req.params.monthId;
+
+    const startDate = new Date(2023, Number(monthId) - 1, 1);
+    const endDate = new Date(2023, Number(monthId), 0);
 
     try {
         const workLogs = await db.workLogs.findAll({
             where: {
-                userId: id
-            }
+                userId: userId,
+                date: {
+                    [Op.between]: [startDate, endDate],
+                }
+            },
+            attributes: {
+                exclude: ['projectId']
+            },
+            include: [
+                { model: db.projects }
+            ]
         });
 
         res.json({ data: workLogs, message: '' });
