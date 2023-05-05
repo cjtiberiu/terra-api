@@ -23,10 +23,58 @@ export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) =>
   }
 };
 
-export const addClient = async (req: IGetUserAuthInfoRequest, res: Response) => {
-  try {
+export const addClient = async (req: Request, res: Response) => {
+  const { name, countryId } = req.body;
 
+  try {
+    const newClient = await db.clients.create({
+      name,
+      countryId
+    });
+
+    return res.json({ clientData: newClient, message: `Client ${name} added` });
   } catch (err) {
-    res.json(err);
+    return res.json({ message: err.name });
   }
-}
+};
+
+export const updateClient = async (req: Request, res: Response) => {
+  const { clientId } = req.params;
+  const { name, countryId } = req.body;
+
+  console.log('CLIENT ID', clientId)
+
+  try {
+    const updatedClient = await db.clients.update(
+      {
+        name,
+        countryId
+      },
+      {
+        where: {
+          id: clientId
+        }
+      }
+    );
+
+    return res.json({ clientData: updatedClient, message: `Client ${name} added` });
+  } catch (err) {
+    return res.json({ message: err.name });
+  }
+};
+
+export const removeClient = async (req: Request, res: Response) => {
+  const { clientId } = req.params;
+
+  try {
+    await db.clients.destroy({
+      where: {
+        id: clientId,
+      },
+    });
+
+    res.json({ message: 'Client deleted succesfully' });
+  } catch (err) {
+    return res.json({ message: err.name });
+  }
+};
