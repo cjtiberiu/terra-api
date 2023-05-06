@@ -9,4 +9,3 @@ clients.get('/getclients', authToken, getClients);
 clients.post('/addclient', authToken, adminCheck, addClient);
 clients.put('/updateclient/:clientId', authToken, adminCheck, updateClient);
 clients.delete('/removeclient/:clientId', authToken, adminCheck, removeClient);
-
