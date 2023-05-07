@@ -9,14 +9,14 @@ export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) =>
       include: [
         {
           model: db.countries,
-          attributes: ['name', 'code', 'currency'],
+          attributes: ['id', 'name', 'code', 'currency'],
         },
       ],
       attributes: {
         exclude: ['countryId'],
       },
     });
-    res.json({ clients: clients });
+    res.json({ data: clients });
   } catch (err) {
     console.log(err);
     res.json(err);
