@@ -1,27 +1,6 @@
 import { Request, Response } from 'express';
 const db = require('../models/');
 
-// export const getProjects = async (req: Request, res: Response) => {
-//   //if (req.user.userType == 'user') return res.sendStatus(401);
-//   try {
-//     const clients = await db.clients.findAll({
-//       include: [
-//         {
-//           model: db.countries,
-//           attributes: ['name', 'code', 'currency'],
-//         },
-//       ],
-//       attributes: {
-//         exclude: ['countryId'],
-//       },
-//     });
-//     res.json({ clients: clients });
-//   } catch (err) {
-//     console.log(err);
-//     res.json(err);
-//   }
-// };
-
 export const getProjects = async (req: Request, res: Response) => {
   try {
     const projects = await db.projects.findAll({
@@ -97,5 +76,15 @@ export const removeProject = async (req: Request, res: Response) => {
     res.json({ message: 'Project deleted succesfully' });
   } catch (err) {
     return res.json({ message: err.name });
+  }
+};
+
+export const getProjectTypes = async (req: Request, res: Response) => {
+  try {
+    const projectTypes = await db.projectTypes.findAll();
+    res.json({ data: projectTypes });
+  } catch (err) {
+    console.log(err);
+    res.json(err);
   }
 };
