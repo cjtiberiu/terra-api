@@ -88,3 +88,29 @@ export const getProjectTypes = async (req: Request, res: Response) => {
     res.json(err);
   }
 };
+
+export const assignProject = async (req: Request, res: Response) => {
+  const { userId, projectId } = req.body;
+
+  try {
+    const user = await db.users.findByPk(userId);
+    const project = await db.projects.findByPk(projectId);
+
+    if (!user || !project) {
+      return res.status(404).json({ message: 'User or project not found' });
+    }
+
+    const [userProject, created] = await db.project_users.findOrCreate({
+      where: { userId, projectId }
+    });
+
+    if (!created) {
+      return res.status(409).json({ message: 'Project is already assign to the project!' });
+    }
+
+    return res.json({ message: 'Project assigned succesfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
