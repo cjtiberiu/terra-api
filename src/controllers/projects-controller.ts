@@ -89,7 +89,7 @@ export const getProjectTypes = async (req: Request, res: Response) => {
   }
 };
 
-export const assignProject = async (req: Request, res: Response) => {
+export const addUserToProject = async (req: Request, res: Response) => {
   const { userId, projectId } = req.body;
 
   try {
@@ -100,15 +100,42 @@ export const assignProject = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User or project not found' });
     }
 
+    // TODO: rename project users db table
     const [userProject, created] = await db.project_users.findOrCreate({
       where: { userId, projectId }
     });
 
     if (!created) {
-      return res.status(409).json({ message: 'Project is already assign to the project!' });
+      return res.status(409).json({ message: 'User is already assign to the project!' });
     }
 
-    return res.json({ message: 'Project assigned succesfully' });
+    return res.json({ message: 'User assigned succesfully' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+export const removeUserFormProject = async (req: Request, res: Response) => {
+  const { userId, projectId } = req.params;
+
+  try {
+    const user = await db.users.findByPk(userId);
+    const project = await db.projects.findByPk(projectId);
+
+    if (!user || !project) {
+      return res.status(404).json({ message: 'User or project not found' });
+    }
+
+    const deletedRows = await db.project_users.destroy({
+      where: { userId, projectId }
+    });
+
+    if (deletedRows === 0) {
+      return res.status(404).json({ message: 'User project not found' });
+    }
+
+    return res.json({ message: 'User project deleted successfully' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
