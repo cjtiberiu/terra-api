@@ -78,3 +78,36 @@ export const removeClient = async (req: Request, res: Response) => {
     return res.json({ message: err.name });
   }
 };
+
+export const getClientDetails = async (req: Request, res: Response) => {
+  const { clientId } = req.query;
+
+  try {
+    const client = await db.clients.findByPk(clientId, {
+      include: [
+        {
+          model: db.countries,
+        },
+      ],
+      attributes: {
+        exclude: ['countryId']
+      }
+    });
+
+    const clientProjects = await client.getProjects({
+      joinTableAttributes: [],
+      attributes: {
+        exclude: ['clientId', 'projectType']
+      },
+    });
+
+    if (!client) {
+      return res.status(404).json({ message: 'Client not found' });
+    }
+
+    return res.json({ data: { ...client.toJSON(), projects: clientProjects } });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}

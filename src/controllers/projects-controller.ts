@@ -182,11 +182,6 @@ export const getProjectDetails = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    const obj = {
-      ...project,
-      users: projectUsers
-    }
-
     return res.json({ data: { ...project.toJSON(), users: projectUsers } });
   } catch (err) {
     console.error(err);
