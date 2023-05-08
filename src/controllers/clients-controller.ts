@@ -99,6 +99,11 @@ export const getClientDetails = async (req: Request, res: Response) => {
       attributes: {
         exclude: ['clientId', 'projectType']
       },
+      include: [
+        {
+          model: db.projectTypes,
+        }
+      ]
     });
 
     if (!client) {
