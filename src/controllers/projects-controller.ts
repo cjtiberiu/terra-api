@@ -141,3 +141,50 @@ export const removeUserFormProject = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+export const getProjectDetails = async (req: Request, res: Response) => {
+  const { projectId } = req.query;
+
+  try {
+    const project = await db.projects.findByPk(projectId, {
+      include: [
+        {
+          model: db.clients,
+        },
+        {
+          model: db.projectTypes
+        }
+      ],
+      attributes: {
+        exclude: ['projectType', 'clientId']
+      }
+    });
+
+    const projectUsers = await project.getUsers({
+      joinTableAttributes: [],
+      attributes: {
+        include: [
+          [db.Sequelize.col('user_role.role'), 'userRole'],
+        ],
+        exclude: ['password', 'userType']
+      },
+      include: [
+        { model: db.userRoles, attributes: [] },
+      ],
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    const obj = {
+      ...project,
+      users: projectUsers
+    }
+
+    return res.json({ data: { ...project.toJSON(), users: projectUsers } });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}

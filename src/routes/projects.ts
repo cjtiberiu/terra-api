@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getProjects, addProject, updateProject, removeProject, getProjectTypes, addUserToProject, removeUserFormProject } from '../controllers/projects-controller';
+import { getProjects, addProject, updateProject, removeProject, getProjectTypes, addUserToProject, removeUserFormProject, getProjectDetails } from '../controllers/projects-controller';
 import { authToken } from '../middleware/tokenCheck';
 import { adminCheck } from '../middleware/adminCheck';
 
@@ -12,3 +12,4 @@ projects.delete('/removeproject/:projectId', authToken, adminCheck, removeProjec
 projects.get('/getprojecttypes', authToken, adminCheck, getProjectTypes);
 projects.post('/addusertoproject', authToken, adminCheck, addUserToProject);
 projects.delete('/removeuserfromproject/:userId/:projectId', authToken, adminCheck, removeUserFormProject);
+projects.get('/getprojectdetails', authToken, adminCheck, getProjectDetails);
