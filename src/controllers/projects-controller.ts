@@ -150,6 +150,11 @@ export const getProjectDetails = async (req: Request, res: Response) => {
       include: [
         {
           model: db.clients,
+          include: [
+            {
+              model: db.countries
+            }
+          ]
         },
         {
           model: db.projectTypes
