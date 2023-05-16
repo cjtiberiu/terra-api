@@ -6,6 +6,7 @@ import { users } from './users';
 import { worklogs } from './worklogs';
 import { projects } from './projects';
 import { countries } from './countries';
+import { invoices } from './invoices';
 
 export const routes: Router = Router();
 
@@ -16,3 +17,4 @@ routes.use(users);
 routes.use(worklogs);
 routes.use(projects);
 routes.use(countries);
+routes.use(invoices);

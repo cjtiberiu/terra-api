@@ -32,6 +32,8 @@ db.clients = require('./Client.model.js')(sequelize, Sequelize);
 db.project_users = require('./Project_users.model.js')(sequelize, Sequelize);
 db.userRoles = require('./User_role.js')(sequelize, Sequelize);
 db.workLogs = require('./WorkLog.model.js')(sequelize, Sequelize);
+db.invoices = require('./Invoice.model.js')(sequelize, Sequelize);
+db.invoice_entry = require('./InvoiceEntry.model.js')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
   foreignKey: {
@@ -131,7 +133,89 @@ db.projects.hasMany(db.workLogs, {
   foreignKey: {
     name: 'projectId',
   },
+});
+db.invoices.belongsTo(db.clients, {
+  foreignKey: {
+    name: 'clientId'
+  },
+  targetKey: 'id'
+});
+db.clients.hasMany(db.invoices, {
+  foreignKey: {
+    name: 'clientId'
+  }
 })
+db.invoice_entry.belongsTo(db.invoices, {
+  foreignKey: {
+    name: 'invoiceId'
+  }
+});
+db.invoices.hasMany(db.invoice_entry, {
+  foreignKey: {
+    name: 'invoiceId'
+  },
+  targetKey: 'id'
+});
+db.invoice_entry.belongsTo(db.users, {
+  foreignKey: {
+    name: 'userId'
+  }
+});
+db.users.hasMany(db.invoice_entry, {
+  foreignKey: {
+    name: 'userId'
+  },
+  targetKey: 'id'
+})
+db.invoice_entry.belongsTo(db.projects, {
+  foreignKey: {
+    name: 'projectId'
+  }
+});
+db.projects.hasMany(db.invoice_entry, {
+  foreignKey: {
+    name: 'projectId'
+  },
+  targetKey: 'id'
+});
+
+// const checkProperties = async () => {
+//   const invoiceEntry = await db.invoice_entry.findOne();
+
+//   console.log(Object.getOwnPropertyNames(invoiceEntry));
+//   console.log(Object.keys(Object.getPrototypeOf(invoiceEntry)));
+// }
+
+// checkProperties();
+
+db.invoice_entry.addHook('afterSave', async (entry: any, options: any) => {
+  const invoice = await entry.getInvoice();
+  await invoice.updateTotalAmount();
+});
+
+db.invoice_entry.addHook('afterDestroy', async (entry: any, options: any) => {
+  const invoice = await entry.getInvoice();
+  await invoice.updateTotalAmount();
+});
+
+db.invoices.addHook('afterFind', async (invoices: any, options: any) => {
+  if (!Array.isArray(invoices)) {
+    invoices = [invoices];
+  }
+  for (const invoice of invoices) {
+    await invoice.updateTotalAmount();
+  }
+});
+
+db.invoices.prototype.updateTotalAmount = async function () {
+  const entries = await this.getInvoice_entries();
+  let totalAmount = 0.0;
+  for (const entry of entries) {
+    totalAmount += entry.totalHours * entry.pricePerHour;
+  }
+  this.totalAmount = totalAmount;
+  await this.save();
+};
 
 module.exports = db;
 
