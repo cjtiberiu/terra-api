@@ -10,4 +10,4 @@ invoices.put('/invoices/save/:invoiceId', authToken, adminCheck, saveInvoice);
 invoices.delete('/invoices/delete/:invoiceId', authToken, adminCheck, deleteInvoice);
 invoices.post('/invoices/addentry', authToken, adminCheck, addInvoiceEntry);
 invoices.get('/invoices/get/:invoiceId', authToken, adminCheck, getInvoiceDetails);
-invoices.get('/invoices', authToken, adminCheck, listInvoices);
+invoices.get('/getinvoices', authToken, adminCheck, listInvoices);
