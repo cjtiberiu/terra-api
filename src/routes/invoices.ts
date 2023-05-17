@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addInvoiceEntry, createInvoice, deleteInvoice, getInvoiceDetails, saveInvoice } from '../controllers/invoice-controller';
+import { addInvoiceEntry, createInvoice, deleteInvoice, getInvoiceDetails, listInvoices, saveInvoice } from '../controllers/invoice-controller';
 import { adminCheck } from '../middleware/adminCheck';
 import { authToken } from '../middleware/tokenCheck';
 
@@ -10,3 +10,4 @@ invoices.put('/invoices/save/:invoiceId', authToken, adminCheck, saveInvoice);
 invoices.delete('/invoices/delete/:invoiceId', authToken, adminCheck, deleteInvoice);
 invoices.post('/invoices/addentry', authToken, adminCheck, addInvoiceEntry);
 invoices.get('/invoices/get/:invoiceId', authToken, adminCheck, getInvoiceDetails);
+invoices.get('/invoices', authToken, adminCheck, listInvoices);

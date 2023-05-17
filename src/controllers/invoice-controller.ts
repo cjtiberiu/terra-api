@@ -10,7 +10,6 @@ export const createInvoice = async (req: Request, res: Response) => {
       totalAmount: 0.0,
       vatAmount: 0.0,
       clientId,
-      saved: false
     });
 
     return res.json({ data: newInvoice, message: `Invoice created succesfully` });
@@ -122,3 +121,21 @@ export const addInvoiceEntry = async (req: Request, res: Response) => {
     res.json(err.name);
   }
 };
+
+export const listInvoices = async (req: Request, res: Response) => {
+  try {
+    const invoices = await db.invoices.findAll({
+      attributes: {
+        exclude: ['clientId']
+      },
+      include: [
+        { model: db.clients }
+      ]
+    });
+
+    return res.json({ data: invoices, message: `Invoices List` });
+  } catch (err) {
+    console.log(err)
+    res.json(err.name);
+  }
+}

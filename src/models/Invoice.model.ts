@@ -14,10 +14,6 @@ module.exports = (sequelize: any, Sequelize: any) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    saved: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
