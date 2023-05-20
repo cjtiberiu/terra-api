@@ -25,6 +25,13 @@ let projectUsers = [
     updatedAt: new Date(),
   },
   {
+    projectId: 2,
+    userId: 1,
+    pricePerHour: 10,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
     projectId: 1,
     userId: 2,
     pricePerHour: 10,

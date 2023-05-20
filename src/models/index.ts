@@ -180,10 +180,10 @@ db.projects.hasMany(db.invoice_entry, {
 });
 
 // const checkProperties = async () => {
-//   const invoiceEntry = await db.invoice_entry.findOne();
+//   const project = await db.projects.findOne();
 
-//   console.log(Object.getOwnPropertyNames(invoiceEntry));
-//   console.log(Object.keys(Object.getPrototypeOf(invoiceEntry)));
+//   console.log(Object.getOwnPropertyNames(project));
+//   console.log(Object.keys(Object.getPrototypeOf(project)));
 // }
 
 // checkProperties();

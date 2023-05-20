@@ -12,6 +12,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        name: 'cNetwork Internals',
+        projectType: 1,
+        clientId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         name: 'Furniture eCommerce Storefront',
         projectType: 2,
         clientId: 3,

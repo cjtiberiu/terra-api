@@ -28,6 +28,30 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        qty: 9,
+        date: '2023-04-19',
+        userId: 1,
+        projectId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        qty: 6,
+        date: '2023-04-21',
+        userId: 1,
+        projectId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        qty: 5,
+        date: '2023-05-21',
+        userId: 1,
+        projectId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
 
