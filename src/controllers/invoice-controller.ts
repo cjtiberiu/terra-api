@@ -169,10 +169,11 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
         })
 
         const userObj = {
-          user: user.firstName + ' ' + user.lastName,
+          name: user.firstName + ' ' + user.lastName,
           userEmail: user.email,
           totalHours: workLogs.reduce((a: any, b: any) => a + b.dataValues.qty, 0),
-          logs: workLogs
+          logs: workLogs,
+          checked: false
         }
 
         if (userObj.logs.length > 0) {
@@ -181,9 +182,10 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       }
 
       const projectObj = {
-        project: project.name,
+        name: project.name,
         totalHours: users.reduce((a: any, b: any) => a + b.totalHours, 0),
-        users: users
+        users: users,
+        checked: false
       }
       
       if (projectObj.users.length > 0) {
@@ -191,7 +193,7 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       }
     }
   
-    res.json({ data: { client: client.name, logs: projectLogs } })
+    res.json({ data: { client: client.name, projects: projectLogs } })
   } catch(err) {
     console.log(err)
     res.json(err.name);
