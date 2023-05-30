@@ -2,12 +2,13 @@ import { Request, Response } from 'express';
 const { Op } = require('sequelize');
 const db = require('../models/');
 
+// TODO: security issue check, new approach needed when adding a new invoice
 export const createInvoice = async (req: Request, res: Response) => {
-  const { vatPercentage, totalAmount, vatAmount, clientId } = req.body;
+  const { vatPercentage, clientId } = req.body;
 
   try {
     const newInvoice = await db.invoices.create({
-      vatPercentage: 0,
+      vatPercentage: vatPercentage ? vatPercentage : 0,
       totalAmount: 0.0,
       vatAmount: 0.0,
       clientId,
@@ -104,6 +105,7 @@ export const getInvoiceDetails = async (req: Request, res: Response) => {
   }
 }
 
+// TODO: security issue check, new approach needed when adding a new invoice
 export const addInvoiceEntry = async (req: Request, res: Response) => {
   const { totalHours, pricePerHour, userId, projectId, invoiceId } = req.body;
 
@@ -142,6 +144,7 @@ export const listInvoices = async (req: Request, res: Response) => {
 }
 
 // TODO: rename and move?
+// security issue check, new approach needed when adding a new invoice
 export const getClientInvoiceData = async (req: Request, res: Response) => {
   const { clientId, month, year } = req.query;
 
@@ -159,6 +162,13 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       let users = [];
 
       for (const user of projectUsers) {
+        const projectUserDetails = await db.project_users.findOne({
+          where: {
+            projectId: project.id,
+            userId: user.id
+          }
+        })
+
         const workLogs = await user.getWork_logs({
           where: { 
             projectId: project.id,
@@ -168,10 +178,15 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
           }
         })
 
+        const userTotalHours = workLogs.reduce((a: any, b: any) => a + b.dataValues.qty, 0);
+
         const userObj = {
           name: user.firstName + ' ' + user.lastName,
+          id: user.id,
           userEmail: user.email,
-          totalHours: workLogs.reduce((a: any, b: any) => a + b.dataValues.qty, 0),
+          totalHours: userTotalHours,
+          pricePerHour: projectUserDetails.pricePerHour,
+          totalAmount: userTotalHours * projectUserDetails.pricePerHour,
           logs: workLogs,
           checked: false
         }
@@ -181,9 +196,14 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
         }
       }
 
+      const projectTotalHours = users.reduce((a: any, b: any) => a + b.totalHours, 0);
+      const projectTotalAmount = users.reduce((a: any, b: any) => a + b.totalAmount, 0)
+
       const projectObj = {
         name: project.name,
-        totalHours: users.reduce((a: any, b: any) => a + b.totalHours, 0),
+        id: project.id,
+        totalHours: projectTotalHours,
+        totalAmount: projectTotalAmount,
         users: users,
         checked: false
       }
@@ -193,7 +213,7 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       }
     }
   
-    res.json({ data: { client: client.name, projects: projectLogs } })
+    res.json({ data: { client: client.name, clientId: client.id, vatPercentage: client.vatPercentage, projects: projectLogs } })
   } catch(err) {
     console.log(err)
     res.json(err.name);
