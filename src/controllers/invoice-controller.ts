@@ -132,7 +132,12 @@ export const listInvoices = async (req: Request, res: Response) => {
         exclude: ['clientId']
       },
       include: [
-        { model: db.clients }
+        { 
+          model: db.clients,
+          include: [
+            { model: db.countries }
+          ] 
+        }
       ]
     });
 
@@ -213,7 +218,7 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       }
     }
   
-    res.json({ data: { client: client.name, clientId: client.id, vatPercentage: client.vatPercentage, projects: projectLogs } })
+    res.json({ data: { client: client.name, clientId: client.id, projects: projectLogs } })
   } catch(err) {
     console.log(err)
     res.json(err.name);

@@ -6,10 +6,6 @@ module.exports = (sequelize: any, Sequelize: any) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    vatPercentage: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     createdAt: {
       allowNull: false,
       type: DataTypes.DATE,

@@ -210,10 +210,16 @@ db.invoices.addHook('afterFind', async (invoices: any, options: any) => {
 db.invoices.prototype.updateTotalAmount = async function () {
   const entries = await this.getInvoice_entries();
   let totalAmount = 0.0;
+
   for (const entry of entries) {
     totalAmount += entry.totalHours * entry.pricePerHour;
   }
+
   this.totalAmount = totalAmount;
+
+  if (this.vatPercentage) {
+    this.vatAmount = (this.vatPercentage / 100) * this.totalAmount;
+  }
   await this.save();
 };
 
