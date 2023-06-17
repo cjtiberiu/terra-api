@@ -188,3 +188,30 @@ export const getProjectDetails = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
+
+export const getUserProjects = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  try {
+    const projects = await db.projects.findAll({
+      where: {
+        userId: userId
+      },
+      include: [
+        {
+          model: db.clients,
+        },
+        {
+          model: db.projectTypes
+        }
+      ],
+      attributes: {
+        exclude: ['projectType', 'clientId']
+      }
+    });
+    res.json({ data: projects });
+  } catch (err) {
+    console.log(err);
+    res.json(err);
+  }
+}
