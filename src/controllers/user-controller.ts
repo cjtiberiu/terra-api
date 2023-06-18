@@ -20,6 +20,10 @@ export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
       ],
     });
 
+    for (const user of users) {
+      user.name = user.firstName + ' ' + user.lastName;
+    }
+
     res.json({ users: users });
   } catch (err) {
     return res.json({ message: err.name });
