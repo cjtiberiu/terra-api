@@ -3,7 +3,6 @@ import { IGetUserAuthInfoRequest } from '../types';
 const db = require('../models/');
 
 export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) => {
-  //if (req.user.userType == 'user') return res.sendStatus(401);
   try {
     const clients = await db.clients.findAll({
       include: [
@@ -11,11 +10,15 @@ export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) =>
           model: db.countries,
           attributes: ['id', 'name', 'code', 'currency'],
         },
+        {
+          model: db.projects
+        }
       ],
       attributes: {
         exclude: ['countryId'],
       },
     });
+
     res.json({ data: clients });
   } catch (err) {
     console.log(err);

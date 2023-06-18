@@ -9,11 +9,14 @@ export const getProjects = async (req: Request, res: Response) => {
           model: db.clients,
         },
         {
-          model: db.projectTypes
+          model: db.projectTypes,
         }
       ],
       attributes: {
-        exclude: ['projectType', 'clientId']
+        exclude: ['clientId'],
+        include: [
+          [db.Sequelize.col('project_type.type'), 'projectType'],
+        ]
       }
     });
     res.json({ data: projects });
