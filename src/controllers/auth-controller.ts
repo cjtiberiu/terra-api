@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, contractStartDate, contractEndDate, userType } = req.body;
+  const { firstName, lastName, email, contractStartDate, contractEndDate, userRole, userType } = req.body;
   let formattedStartDate;
   let formattedEndDate;
 
@@ -70,12 +70,13 @@ export const register = async (req: Request, res: Response) => {
       password: bcrypt.hashSync(`${process.env.DEFAULT_USER_PASSWORD}`, bcrypt.genSaltSync(10)),
       contractStartDate,
       contractEndDate,
+      userRole,
       userType,
     });
 
-    return res.json({ userData: newUser, message: `User ${email} added` });
+    return res.status(200).json({ userData: newUser, message: `Utilizatorul ${email} a fost adaugat cu success` });
   } catch (err) {
-    return res.json({ message: err.name });
+    return res.status(400).json(err);
   }
 };
 
