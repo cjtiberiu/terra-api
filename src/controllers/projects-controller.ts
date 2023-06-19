@@ -36,9 +36,9 @@ export const addProject = async (req: Request, res: Response) => {
       clientId
     });
 
-    return res.json({ projectData: newProject, message: `Project ${name} added` });
+    return res.status(200).json({ projectData: newProject, message: `Proiectul ${name} a fost adaugat cu succes!` });
   } catch (err) {
-    return res.json({ message: err.name });
+    return res.status(400).json(err);
   }
 };
 
