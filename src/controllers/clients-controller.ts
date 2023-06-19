@@ -35,9 +35,9 @@ export const addClient = async (req: Request, res: Response) => {
       countryId
     });
 
-    return res.json({ clientData: newClient, message: `Client ${name} added` });
+    return res.status(200).json({ clientData: newClient, message: `Clientul ${name} a fost adaugat cu succes!` });
   } catch (err) {
-    return res.json({ message: err.name });
+    return res.status(400).json(err);
   }
 };
 
