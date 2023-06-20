@@ -5,7 +5,7 @@ export const getUserTypes = async (req: Request, res: Response) => {
   try {
     const userTypes = await db.userTypes.findAll();
 
-    res.json({ userTypes: userTypes });
+    res.json({ data: userTypes });
   } catch (err) {
     res.json(err.name);
   }

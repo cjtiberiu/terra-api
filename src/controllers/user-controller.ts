@@ -24,7 +24,7 @@ export const getUsers = async (req: IGetUserAuthInfoRequest, res: Response) => {
       user.name = user.firstName + ' ' + user.lastName;
     }
 
-    res.json({ users: users });
+    res.json({ data: users });
   } catch (err) {
     return res.json({ message: err.name });
   }
@@ -40,7 +40,7 @@ export const getUser = async (req: Request, res: Response) => {
       },
     });
 
-    res.json({ userData: user, message: 'User found' });
+    res.json({ data: user, message: 'User found' });
   } catch (err) {
     return res.json({ message: err.name });
   }
@@ -73,7 +73,7 @@ export const updateUser = async (req: Request, res: Response) => {
       }
     );
 
-    return res.json({ updatedUser: updatedUser, message: 'User updated succesfully' });
+    return res.json({ data: updatedUser, message: 'User updated succesfully' });
   } catch (err) {
     return res.json({ message: err.name });
   }
@@ -99,7 +99,7 @@ export const getUserTypes = async (req: Request, res: Response) => {
   try {
     const userTypes = await db.userTypes.findAll();
 
-    res.json({ userTypes: userTypes });
+    res.json({ data: userTypes });
   } catch (err) {
     res.json(err.name);
   }
@@ -109,7 +109,7 @@ export const getUserRoles = async (req: Request, res: Response) => {
   try {
     const userRoles = await db.userRoles.findAll();
 
-    res.json({ userRoles: userRoles });
+    res.json({ data: userRoles });
   } catch (err) {
     res.json(err.name);
   }

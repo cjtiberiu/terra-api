@@ -35,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
       if (result) {
         delete user.password;
         const userData = { ...user, token };
-        res.status(200).json({ userData, message: 'User logged in' });
+        res.status(200).json({ data: userData, message: 'User logged in' });
       } else {
         res.json({ message: 'Wrong password' });
       }
@@ -74,7 +74,7 @@ export const register = async (req: Request, res: Response) => {
       userType,
     });
 
-    return res.status(200).json({ userData: newUser, message: `Utilizatorul ${email} a fost adaugat cu success` });
+    return res.status(200).json({ data: newUser, message: `Utilizatorul ${email} a fost adaugat cu success` });
   } catch (err) {
     return res.status(400).json(err);
   }

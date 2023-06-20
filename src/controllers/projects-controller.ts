@@ -60,7 +60,7 @@ export const updateProject = async (req: Request, res: Response) => {
       }
     );
 
-    return res.json({ projectData: updatedProject, message: `Project ${name} updated` });
+    return res.json({ data: updatedProject, message: `Project ${name} updated` });
   } catch (err) {
     return res.json({ message: err.name });
   }
