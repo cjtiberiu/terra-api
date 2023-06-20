@@ -10,7 +10,7 @@ projects.get('/getuserprojects/:userId', authToken, getUserProjects)
 projects.post('/addproject', authToken, adminCheck, addProject);
 projects.put('/updateproject/:projectId', authToken, adminCheck, updateProject);
 projects.delete('/removeproject/:projectId', authToken, adminCheck, removeProject);
-projects.get('/getprojecttypes', authToken, adminCheck, getProjectTypes);
+projects.get('/getprojecttypes', authToken, getProjectTypes);
 projects.post('/addusertoproject', authToken, adminCheck, addUserToProject);
 projects.delete('/removeuserfromproject/:userId/:projectId', authToken, adminCheck, removeUserFormProject);
 projects.get('/getprojectdetails', authToken, getProjectDetails);
