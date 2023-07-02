@@ -14,7 +14,7 @@ export const createInvoice = async (req: Request, res: Response) => {
       clientId,
     });
 
-    return res.json({ data: newInvoice, message: `Invoice created succesfully` });
+    return res.status(200).json({ data: newInvoice, message: `Invoice created succesfully` });
   } catch(err) {
     console.log(err)
     res.json(err.name);
@@ -35,9 +35,8 @@ export const saveInvoice = async (req: Request, res: Response) => {
       }
     });
 
-    return res.json({ message: `Invoice updated succesfully` });
+    return res.status(200).json({ message: `Invoice updated succesfully` });
   } catch(err) {
-    console.log(err)
     res.json(err.name);
   }
 }
@@ -54,7 +53,6 @@ export const deleteInvoice = async (req: Request, res: Response) => {
 
     return res.json({ message: `Invoice deleted succesfully` });
   } catch(err) {
-    console.log(err)
     res.json(err.name);
   }
 }
@@ -100,7 +98,6 @@ export const getInvoiceDetails = async (req: Request, res: Response) => {
 
     return res.json({ data: { ...invoiceDetails.toJSON(), entries: invoiceEntries }, message: `Get Entry` });
   } catch(err) {
-    console.log(err)
     res.json(err.name);
   }
 }
@@ -143,7 +140,6 @@ export const listInvoices = async (req: Request, res: Response) => {
 
     return res.json({ data: invoices, message: `Invoices List` });
   } catch (err) {
-    console.log(err)
     res.json(err.name);
   }
 }
@@ -218,9 +214,8 @@ export const getClientInvoiceData = async (req: Request, res: Response) => {
       }
     }
   
-    res.json({ data: { client: client.name, clientId: client.id, projects: projectLogs } })
+    res.status(200).json({ data: { client: client.name, clientId: client.id, projects: projectLogs } })
   } catch(err) {
-    console.log(err)
     res.json(err.name);
   }
 }

@@ -145,7 +145,9 @@ export const getUserDetails = async (req: Request, res: Response) => {
         {
           model: db.clients,
           include: [
-            { model: db.countries }
+            { 
+              model: db.countries,
+            }
           ]
         },
       ],

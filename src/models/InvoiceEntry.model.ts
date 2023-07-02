@@ -1,15 +1,7 @@
 import { Sequelize, DataTypes, INTEGER } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
-  const Invoice = sequelize.define('invoice_entry', {
-    // userId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    // },
-    // projectId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    // },
+  const InvoiceEntry = sequelize.define('invoice_entry', {
     totalHours: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -30,5 +22,5 @@ module.exports = (sequelize: any, Sequelize: any) => {
     },
   });
 
-  return Invoice;
+  return InvoiceEntry;
 };

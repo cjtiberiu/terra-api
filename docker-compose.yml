@@ -1,6 +1,7 @@
 version: '3'
 services:
   db:
+    container_name: cnetwork-db
     image: mysql
     restart: always
     environment:
@@ -11,8 +12,11 @@ services:
       - '3306:3306'
     volumes:
       - my-db:/var/lib/mysql
+    networks: 
+      - cnetwork-server
 
   phpmyadmin:
+    container_name: cnetwork-admin
     image: phpmyadmin/phpmyadmin
     restart: always
     environment:
@@ -20,6 +24,11 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - '8080:80'
+    networks:
+      - cnetwork-server
 
 volumes:
   my-db:
+
+networks:
+  cnetwork-server:

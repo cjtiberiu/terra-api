@@ -26,7 +26,7 @@ export const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
-      res.json({ message: 'Email not found' });
+      res.json({ message: 'Utilizatorul nu a fost gasit in baza de date!' });
     }
 
     const token = generateAccessToken(user);
@@ -37,7 +37,7 @@ export const login = async (req: Request, res: Response) => {
         const userData = { ...user, token };
         res.status(200).json({ data: userData, message: 'User logged in' });
       } else {
-        res.json({ message: 'Wrong password' });
+        res.json({ message: 'Parola este invalida!' });
       }
     });
   } catch (err) {
@@ -84,6 +84,6 @@ function generateAccessToken(user: IUserObject) {
   const tokenUser = Object.assign({}, user);
   delete tokenUser.password;
   return jwt.sign(tokenUser, process.env.JWT_TOKEN, {
-    expiresIn: '60000000',
+    expiresIn: '86400000',
   });
 }

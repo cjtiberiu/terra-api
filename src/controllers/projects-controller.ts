@@ -7,6 +7,11 @@ export const getProjects = async (req: Request, res: Response) => {
       include: [
         {
           model: db.clients,
+          include: [
+            {
+              model: db.countries
+            }
+          ]
         },
         {
           model: db.projectTypes,
@@ -21,7 +26,6 @@ export const getProjects = async (req: Request, res: Response) => {
     });
     res.json({ data: projects });
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
 };
@@ -87,35 +91,33 @@ export const getProjectTypes = async (req: Request, res: Response) => {
     const projectTypes = await db.projectTypes.findAll();
     res.json({ data: projectTypes });
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
 };
 
 export const addUserToProject = async (req: Request, res: Response) => {
-  const { userId, projectId } = req.body;
+  const { userId, projectId, pricePerHour } = req.body;
 
   try {
     const user = await db.users.findByPk(userId);
     const project = await db.projects.findByPk(projectId);
 
     if (!user || !project) {
-      return res.status(404).json({ message: 'User or project not found' });
+      return res.status(404).json({ message: 'Utilizatorul sau proiectul nu au fost gasite' });
     }
 
     // TODO: rename project users db table
     const [userProject, created] = await db.project_users.findOrCreate({
-      where: { userId, projectId }
+      where: { userId, projectId, pricePerHour }
     });
 
     if (!created) {
-      return res.status(409).json({ message: 'User is already assign to the project!' });
+      return res.status(409).json({ message: 'Utilizatorul este asignat deja la proiect' });
     }
 
-    return res.json({ message: 'User assigned succesfully' });
+    return res.json({ message: 'Utilizator adaugat cu succes' });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Eroare server' });
   }
 }
 
@@ -214,7 +216,6 @@ export const getUserProjects = async (req: Request, res: Response) => {
     });
     res.json({ data: projects });
   } catch (err) {
-    console.log(err);
     res.json(err);
   }
 }

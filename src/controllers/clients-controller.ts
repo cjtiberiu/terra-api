@@ -19,10 +19,9 @@ export const getClients = async (req: IGetUserAuthInfoRequest, res: Response) =>
       },
     });
 
-    res.json({ data: clients });
+    res.status(200).json({ data: clients });
   } catch (err) {
-    console.log(err);
-    res.json(err);
+    res.status(400).json(err);
   }
 };
 
@@ -115,7 +114,6 @@ export const getClientDetails = async (req: Request, res: Response) => {
 
     return res.json({ data: { ...client.toJSON(), projects: clientProjects } });
   } catch (err) {
-    console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
