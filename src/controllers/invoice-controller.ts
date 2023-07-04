@@ -45,6 +45,12 @@ export const deleteInvoice = async (req: Request, res: Response) => {
   const { invoiceId } = req.params;
 
   try {
+    await db.invoice_entry.destroy({
+      where: {
+        invoiceId: invoiceId
+      }
+    })
+    
     await db.invoices.destroy({
       where: {
         id: invoiceId

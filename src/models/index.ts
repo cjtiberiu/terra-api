@@ -223,6 +223,10 @@ db.invoices.prototype.updateTotalAmount = async function () {
   await this.save();
 };
 
+db.invoices.addHook('beforeDestroy', async (invoice: any, options: any) => {
+  await db.invoice_entry.destroy({ where: { invoiceId: invoice.id } });
+});
+
 module.exports = db;
 
 // 'use strict';
