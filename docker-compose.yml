@@ -1,8 +1,8 @@
 version: '3'
 services:
   db:
-    container_name: cnetwork-db
-    image: mysql
+    container_name: db
+    image: mysql:latest
     restart: always
     environment:
       MYSQL_DATABASE: ${DB_NAME}
@@ -16,7 +16,7 @@ services:
       - cnetwork-server
 
   phpmyadmin:
-    container_name: cnetwork-admin
+    container_name: admin
     image: phpmyadmin/phpmyadmin
     restart: always
     environment:
@@ -27,8 +27,40 @@ services:
     networks:
       - cnetwork-server
 
+  app:
+    container_name: app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - cnetwork-server
+    depends_on:
+      - db
+
 volumes:
   my-db:
 
 networks:
   cnetwork-server:
+
+
+
+    # app:
+    # container_name: app
+    # depends_on:
+    #   - db
+    # build: ./bezkoder-app
+    # restart: unless-stopped
+    # env_file: ./.env
+    # ports:
+    #   - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    # environment:
+    #   - DB_HOST=mysqldb
+    #   - DB_USER=$MYSQLDB_USER
+    #   - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+    #   - DB_NAME=$MYSQLDB_DATABASE
+    #   - DB_PORT=$MYSQLDB_DOCKER_PORT
+    # stdin_open: true
+    # tty: true
