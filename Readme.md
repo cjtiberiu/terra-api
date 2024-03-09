@@ -26,10 +26,11 @@ ADMIN_USER_PASSWORD=
 3. docker-compose up --build (use --build only the first time and if Dockerfile code changes)
 
 
-### Known Bugs
+### Known Setup Bugs
+It seems that the app tries to connect to the database before the database is ready to accept connections so:
 - at first docker build, the database refuses the app connection so we need to run it a second time
-- sometimes the database refuses the app connection so we need to run docker-compose up multiple times
-- - - -
+- sometimes we might need to run `docker-compose up` multiple times before the connection is accepted
+
 
 ## Sequelize Commands for Migrations And Seeds
 1. npx sequelize seed:generate --name [name] to generate seed file
