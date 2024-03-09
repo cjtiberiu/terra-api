@@ -6,25 +6,15 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('users', [
       {
-        firstName: 'Admin',
-        lastName: 'Test',
-        email: 'admin@test.com',
-        password: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
+        firstName: `${process.env.ADMIN_USER_FIRSTNAME}`,
+        lastName: `${process.env.ADMIN_USER_LASTNAME}`,
+        email: `${process.env.ADMIN_USER_EMAIL}`,
+        password: bcrypt.hashSync(`${process.env.ADMIN_USER_PASSWORD}`, bcrypt.genSaltSync(10)),
         userType: 1,
         userRole: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      // {
-      //   firstName: 'User',
-      //   lastName: 'Test',
-      //   email: 'user@cnetwork.com',
-      //   password: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
-      //   userType: 2,
-      //   userRole: 2,
-      //   createdAt: new Date(),
-      //   updatedAt: new Date(),
-      // },
     ]);
   },
   async down(queryInterface, Sequelize) {

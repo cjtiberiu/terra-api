@@ -16,9 +16,19 @@ DB_PASSWORD=
 DB_USER=
 DB_HOST=
 APP_PORT=
+DEFAULT_USER_PASSWORD= (this is the default password that will be used when a new account will be created from admin interface)
+JWT_TOKEN= add a jwt pasword, this will be used for crypt and decrypt
+ADMIN_USER_EMAIL= (set data for the first admin user that will control the app, same for the admin variables below, this data will be used in React)
+ADMIN_USER_FIRSTNAME=
+ADMIN_USER_LASTNAME=
+ADMIN_USER_PASSWORD=
 ```
-3. docker-compose up --build
+3. docker-compose up --build (use --build only the first time and if Dockerfile code changes)
 
+
+### Known Bugs
+- at first docker build, the database refuses the app connection so we need to run it a second time
+- sometimes the database refuses the app connection so we need to run docker-compose up multiple times
 - - - -
 
 ## Sequelize Commands for Migrations And Seeds

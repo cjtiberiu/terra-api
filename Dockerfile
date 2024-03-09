@@ -22,6 +22,9 @@ COPY . .
 # Build your TypeScript
 RUN npm run build
 
+# Install sequelize-cli inside container
+RUN npm install -g sequelize-cli
+
 # Production stage: Use a new base image without devDependencies
 FROM node:18.7.0
 
@@ -33,6 +36,12 @@ COPY package*.json ./
 
 # Copy the .env file
 COPY .env ./
+
+# Specifically copy the .sequelizerc-docker file and rename it to .sequelizerc
+COPY .sequelizerc-docker /usr/src/app/.sequelizerc
+
+# Copy db seeds and migrations
+COPY /src/db ./dist/db
 
 # Install only production dependencies
 RUN npm ci --only=production

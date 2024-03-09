@@ -7,15 +7,6 @@ module.exports = {
       {
         role: 'Administrator',
       },
-      {
-        role: 'Frontend Developer',
-      },
-      {
-        role: 'Backend Developer',
-      },
-      {
-        role: 'Fullstack Developer',
-      },
     ]);
   },
 
